@@ -29,7 +29,7 @@ public class LibraryService {
         }
         else{
             Optional<Library> lbc=libraryRepository.getLibrary(lb.getId());
-            if(lbc.isPresent()){
+            if(!lbc.isPresent()){
                 return libraryRepository.save(lb);
             }
             else{
