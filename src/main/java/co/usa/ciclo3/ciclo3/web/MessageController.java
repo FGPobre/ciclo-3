@@ -1,8 +1,8 @@
-
 package co.usa.ciclo3.ciclo3.web;
 
-import co.usa.ciclo3.ciclo3.model.Library;
-import co.usa.ciclo3.ciclo3.service.LibraryService;
+
+import co.usa.ciclo3.ciclo3.model.Message;
+import co.usa.ciclo3.ciclo3.service.MessageService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,24 +22,24 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Alexander Gonzalez P
  */
 @RestController
-@RequestMapping("/api/Lib")
+@RequestMapping("/api/Message")
 @CrossOrigin(origins="*",methods={RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,
     RequestMethod.DELETE})
-public class LibraryController {
+public class MessageController {
     @Autowired
-    private LibraryService libraryService;
+    private MessageService messageService;
     
     @GetMapping("/all")
-    public List<Library>getLibrary(){
-        return libraryService.getAll();
+    public List<Message>getMessage(){
+        return messageService.getAll();
     }
     @GetMapping("/{id}")
-    public Optional<Library>getLibrar(@PathVariable("id")int id ){
-        return libraryService.getLibrary(id);
+    public Optional<Message>getMessage(@PathVariable("id")int id ){
+        return messageService.getMessage(id);
     }
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public Library save(@RequestBody Library lb){
-        return libraryService.save(lb);
+    public Message save(@RequestBody Message lb){
+        return messageService.save(lb);
     }
 }

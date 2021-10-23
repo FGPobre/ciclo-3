@@ -1,6 +1,8 @@
 package co.usa.ciclo3.ciclo3.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.*;
 import javax.persistence.Table;
 
@@ -15,10 +17,45 @@ public class Library implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private String name;
     private String target;
     private Integer capacity;
-    private Integer capacity_id;
-    private String name;
+    private String description;
+    
+    @ManyToOne
+    @JoinColumn(name="categoryid")
+    @JsonIgnoreProperties("libs")
+    private Category category;
+    @OneToMany(cascade={CascadeType.PERSIST},mappedBy="lib")
+    @JsonIgnoreProperties({"lib","client"})
+    private List <Message> messages;
+    @OneToMany(cascade={CascadeType.PERSIST},mappedBy="lib")
+    @JsonIgnoreProperties("lib")
+    private List <Reservation> reservations;
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
 
     public Integer getId() {
         return id;
@@ -44,14 +81,6 @@ public class Library implements Serializable {
         this.capacity = capacity;
     }
 
-    public Integer getCapacity_id() {
-        return capacity_id;
-    }
-
-    public void setCapacity_id(Integer capacity_id) {
-        this.capacity_id = capacity_id;
-    }
-
     public String getName() {
         return name;
     }
@@ -59,5 +88,15 @@ public class Library implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    
     
 }

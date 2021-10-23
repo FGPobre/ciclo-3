@@ -1,8 +1,7 @@
-
 package co.usa.ciclo3.ciclo3.web;
 
-import co.usa.ciclo3.ciclo3.model.Library;
-import co.usa.ciclo3.ciclo3.service.LibraryService;
+import co.usa.ciclo3.ciclo3.model.Category;
+import co.usa.ciclo3.ciclo3.service.CategoryService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,24 +21,24 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Alexander Gonzalez P
  */
 @RestController
-@RequestMapping("/api/Lib")
+@RequestMapping("/api/Category")
 @CrossOrigin(origins="*",methods={RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,
     RequestMethod.DELETE})
-public class LibraryController {
+public class CategoryController {
     @Autowired
-    private LibraryService libraryService;
+    private CategoryService categoryService;
     
     @GetMapping("/all")
-    public List<Library>getLibrary(){
-        return libraryService.getAll();
+    public List<Category>getCategory(){
+        return categoryService.getAll();
     }
     @GetMapping("/{id}")
-    public Optional<Library>getLibrar(@PathVariable("id")int id ){
-        return libraryService.getLibrary(id);
+    public Optional<Category>getCategory(@PathVariable("id")int id ){
+        return categoryService.getCategory(id);
     }
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public Library save(@RequestBody Library lb){
-        return libraryService.save(lb);
+    public Category save(@RequestBody Category lb){
+        return categoryService.save(lb);
     }
 }

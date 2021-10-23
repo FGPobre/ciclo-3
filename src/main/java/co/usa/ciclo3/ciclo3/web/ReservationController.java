@@ -1,8 +1,8 @@
-
 package co.usa.ciclo3.ciclo3.web;
 
-import co.usa.ciclo3.ciclo3.model.Library;
-import co.usa.ciclo3.ciclo3.service.LibraryService;
+
+import co.usa.ciclo3.ciclo3.model.Reservation;
+import co.usa.ciclo3.ciclo3.service.ReservationService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,24 +22,24 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Alexander Gonzalez P
  */
 @RestController
-@RequestMapping("/api/Lib")
+@RequestMapping("/api/Reservation")
 @CrossOrigin(origins="*",methods={RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,
     RequestMethod.DELETE})
-public class LibraryController {
+public class ReservationController {
     @Autowired
-    private LibraryService libraryService;
+    private ReservationService reservationService;
     
     @GetMapping("/all")
-    public List<Library>getLibrary(){
-        return libraryService.getAll();
+    public List<Reservation>getReservation(){
+        return reservationService.getAll();
     }
     @GetMapping("/{id}")
-    public Optional<Library>getLibrar(@PathVariable("id")int id ){
-        return libraryService.getLibrary(id);
+    public Optional<Reservation>getReservation(@PathVariable("id")int id ){
+        return reservationService.getReservation(id);
     }
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public Library save(@RequestBody Library lb){
-        return libraryService.save(lb);
+    public Reservation save(@RequestBody Reservation lb){
+        return reservationService.save(lb);
     }
 }
