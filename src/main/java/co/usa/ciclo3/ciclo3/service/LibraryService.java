@@ -50,8 +50,8 @@ public class LibraryService {
                 if(lb.getTarget()!=null){
                     c.get().setTarget(lb.getTarget());
                 }
-                if(lb.getCapacity()!=null){
-                    c.get().setCapacity(lb.getCapacity());
+                if(lb.getDescription()!=null){
+                    c.get().setDescription(lb.getDescription());
                 }
                 return libraryRepository.save(c.get());
             }
