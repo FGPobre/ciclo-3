@@ -37,4 +37,34 @@ public class LibraryService {
             }
         }
     }
+    public Library update(Library lb){
+        if(lb.getId()!=null){
+            Optional<Library>c=libraryRepository.getLibrary(lb.getId());
+            if(c.isPresent()){
+                if(lb.getName()!=null){
+                    c.get().setName(lb.getName());
+                }
+                if(lb.getCapacity()!=null){
+                    c.get().setCapacity(lb.getCapacity());
+                }
+                if(lb.getTarget()!=null){
+                    c.get().setTarget(lb.getTarget());
+                }
+                if(lb.getCapacity()!=null){
+                    c.get().setCapacity(lb.getCapacity());
+                }
+                return libraryRepository.save(c.get());
+            }
+        }
+        return lb;
+    }
+    
+    public boolean delete(int id){
+        Optional<Library>c=getLibrary(id);
+        if(c.isPresent()){
+            libraryRepository.delete(c.get());
+            return true;
+        }
+        return false;
+    }
 }

@@ -26,5 +26,7 @@ public class LibraryRepository {
     public Library save(Library lb){
         return libraryCrudRepository.save(lb);
     }
-    
+    public void delete(Library lb){
+        libraryCrudRepository.delete(lb);
+    }
 }

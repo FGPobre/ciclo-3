@@ -28,12 +28,37 @@ public class CategoryService {
         }
         else{
             Optional<Category> lbc=categoryRepository.getCategory(lb.getId());
-            if(lbc.toString().isEmpty()){
+            if(!lbc.isPresent()){
                 return categoryRepository.save(lb);
             }
             else{
                 return lb;
             }
         }
+    }
+    
+    public Category update(Category lb){
+        if(lb.getId()!=null){
+            Optional<Category>c=categoryRepository.getCategory(lb.getId());
+            if(c.isPresent()){
+                if(lb.getName()!=null){
+                    c.get().setName(lb.getName());
+                }
+                if(lb.getDescription()!=null){
+                    c.get().setDescription(lb.getDescription());
+                }
+                return categoryRepository.save(c.get());
+            }
+        }
+        return lb;
+    }
+    
+    public boolean delete(int id){
+        Optional<Category>c=getCategory(id);
+        if(c.isPresent()){
+            categoryRepository.delete(c.get());
+            return true;
+        }
+        return false;
     }
 }

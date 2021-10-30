@@ -8,9 +8,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,5 +43,14 @@ public class LibraryController {
     @ResponseStatus(HttpStatus.CREATED)
     public Library save(@RequestBody Library lb){
         return libraryService.save(lb);
+    }
+    @PutMapping("/update")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Library update(@RequestBody Library lb){
+        return libraryService.update(lb);
+    }
+    @DeleteMapping("/{id}")
+    public boolean deleteCategory(@PathVariable("id")int id ){
+        return libraryService.delete(id);
     }
 }

@@ -20,7 +20,7 @@ public class Category implements Serializable{
     private String name;
     private String description;
     
-    @OneToMany(cascade={CascadeType.PERSIST},mappedBy="category")
+    @OneToMany(cascade={CascadeType.REMOVE},mappedBy="category")
     public List<Library> libs;
 
     public Integer getId() {

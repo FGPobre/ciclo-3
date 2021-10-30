@@ -25,5 +25,7 @@ public class CategoryRepository {
     public Category save(Category lb){
         return categoryCrudRepository.save(lb);
     }
-    
+    public void delete(Category lb){
+        categoryCrudRepository.delete(lb);
+    }
 }

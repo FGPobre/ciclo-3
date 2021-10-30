@@ -26,10 +26,10 @@ public class Library implements Serializable {
     @JoinColumn(name="categoryid")
     @JsonIgnoreProperties("libs")
     private Category category;
-    @OneToMany(cascade={CascadeType.PERSIST},mappedBy="lib")
+    @OneToMany(cascade={CascadeType.REMOVE},mappedBy="lib",orphanRemoval = true)
     @JsonIgnoreProperties({"lib","client"})
     private List <Message> messages;
-    @OneToMany(cascade={CascadeType.PERSIST},mappedBy="lib")
+    @OneToMany(cascade={CascadeType.REMOVE},mappedBy="lib",orphanRemoval = true)
     @JsonIgnoreProperties("lib")
     private List <Reservation> reservations;
 

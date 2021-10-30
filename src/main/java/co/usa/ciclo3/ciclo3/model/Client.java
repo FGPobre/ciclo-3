@@ -1,6 +1,6 @@
 package co.usa.ciclo3.ciclo3.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
@@ -21,9 +21,9 @@ public class Client implements Serializable {
     private String password;
     private String name;
     private Integer age;
-    @OneToMany(cascade={CascadeType.PERSIST},mappedBy="client")
+    @OneToMany(cascade={CascadeType.REMOVE},mappedBy="client",orphanRemoval = true)
     private List <Message> messages;
-    @OneToMany(cascade={CascadeType.PERSIST},mappedBy="client")
+    @OneToMany(cascade={CascadeType.REMOVE},mappedBy="client",orphanRemoval = true)
     private List <Reservation> reservations;
 
     public List<Reservation> getReservations() {
