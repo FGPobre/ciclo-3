@@ -50,6 +50,7 @@ public class LibraryController {
         return libraryService.update(lb);
     }
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public boolean deleteCategory(@PathVariable("id")int id ){
         return libraryService.delete(id);
     }
