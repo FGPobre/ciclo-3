@@ -3,14 +3,13 @@ package co.usa.ciclo3.ciclo3.service;
 
 
 import co.usa.ciclo3.ciclo3.model.Reservation;
+import co.usa.ciclo3.ciclo3.repository.ContadorClientes;
 import co.usa.ciclo3.ciclo3.repository.ReservationRepository;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,32 +31,12 @@ public class ReservationService {
     }
     public Reservation save(Reservation lb){
         if(lb.getIdReservation()==null){
-        LocalDate fechaini =LocalDate.parse(lb.getStartDate());
-        LocalDate fechad=LocalDate.parse(lb.getDevolutionDate());
-        LocalTime lt = LocalTime.of(0,0) ;
-        OffsetDateTime fechaini_of = OffsetDateTime.of( fechaini , lt , ZoneOffset.UTC ) ;
-        OffsetDateTime fechad_of = OffsetDateTime.of( fechad , lt , ZoneOffset.UTC ) ;
-        DateTimeFormatter f = DateTimeFormatter.ofPattern( "uuuu-MM-dd'T'HH:mm:ss.SSSZ" , Locale.US );
-        String Fecha_fi=fechaini_of.format(f);
-        String Fecha_ff=fechad_of.format(f);
-        String nueva_Fecha_fi=Fecha_fi.substring(0, 26)+":"+Fecha_fi.substring(26);
-        String nueva_Fecha_ff=Fecha_ff.substring(0, 26)+":"+Fecha_fi.substring(26);
-        lb.setStartDate(nueva_Fecha_fi);
-        lb.setDevolutionDate(nueva_Fecha_ff);
         return reservationRepository.save(lb);
          
         }
         else{
             Optional<Reservation> lbc=reservationRepository.getReservation(lb.getIdReservation());
             if(!lbc.isPresent()){
-                LocalDate fechaini =LocalDate.parse(lb.getStartDate());
-                LocalDate fechad=LocalDate.parse(lb.getDevolutionDate());
-                LocalTime lt = LocalTime.of(0,0);
-                OffsetDateTime fechaini_of = OffsetDateTime.of( fechaini , lt , ZoneOffset.UTC ) ;
-                OffsetDateTime fechad_of = OffsetDateTime.of( fechad , lt , ZoneOffset.UTC ) ;
-                DateTimeFormatter f = DateTimeFormatter.ofPattern( "uuuu-MM-dd'T'HH:mm:ss.SSSZ" , Locale.ROOT );
-                lb.setStartDate(fechaini_of.format(f));
-                lb.setDevolutionDate(fechad_of.format(f));
                 return reservationRepository.save(lb);
             }
             else{
@@ -65,4 +44,65 @@ public class ReservationService {
             }
         }
     }
+    
+        public Reservation update(Reservation reservacion){
+        if(reservacion.getIdReservation()!=null){
+            Optional<Reservation> e= reservationRepository.getReservation(reservacion.getIdReservation());
+            if(e.isPresent()){
+
+                if(reservacion.getStartDate()!=null){
+                    e.get().setStartDate(reservacion.getStartDate());
+                }
+                if(reservacion.getDevolutionDate()!=null){
+                    e.get().setDevolutionDate(reservacion.getDevolutionDate());
+                }
+                if(reservacion.getStatus()!=null){
+                    e.get().setStatus(reservacion.getStatus());
+                }
+                reservationRepository.save(e.get());
+                return e.get();
+            }else{
+                return reservacion;
+            }
+        }else{
+            return reservacion;
+        }
+    }
+
+    public boolean deleteReservation(int reservationId) {
+        Boolean aBoolean = getReservation(reservationId).map(reservation -> {
+            reservationRepository.delete(reservation);
+            return true;
+        }).orElse(false);
+        return aBoolean;
+    }
+  
+    public StatusReservas reporteStatusServicio (){
+        List<Reservation>completed= reservationRepository.ReservacionStatusRepositorio("completed");
+        List<Reservation>cancelled= reservationRepository.ReservacionStatusRepositorio("cancelled");
+        
+        return new StatusReservas(completed.size(), cancelled.size() );
+    }
+    
+    public List<Reservation> reporteTiempoServicio (String datoA, String datoB){
+        SimpleDateFormat parser = new SimpleDateFormat ("yyyy-MM-dd");
+        
+        Date datoUno = new Date();
+        Date datoDos = new Date();
+        
+        try{
+             datoUno = parser.parse(datoA);
+             datoDos = parser.parse(datoB);
+        }catch(ParseException evt){
+            evt.printStackTrace();
+        }if(datoUno.before(datoDos)){
+            return reservationRepository.ReservacionTiempoRepositorio(datoUno, datoDos);
+        }else{
+            return new ArrayList<>();
+        
+        } 
+    } 
+     public List<ContadorClientes> reporteClientesServicio(){
+            return reservationRepository.getClientesRepositorio();
+        } 
 }
